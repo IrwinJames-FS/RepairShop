@@ -1,11 +1,17 @@
-import { Button, Card, CardContent, CardHeader, Stack, TextField, Typography } from "@mui/material"
+import { Alert, Button, Card, CardContent, CardHeader, Stack, TextField, Typography } from "@mui/material"
 import { Main } from "../components/Main"
 import axios from "axios";
 import { BASE_URL } from "../constants";
+import { useState } from "react";
+import { buildStore } from "../utils/jsonStorage";
+import { Navigate } from "react-router-dom";
+import { useAuthentication } from "../contexts/Authentication";
+import { NoAuth } from "../components/NoAuth";
 export const SignIn = () => {
+	const [errorMessage, setErrorMessage] = useState(null);
+	const { user, signIn } = useAuthentication();
 	const handleSubmit = event => {
 		event.preventDefault();
-		console.log(event);
 		const {username, password} = event.target.elements;
 		const payload = {
 			username: username.value,
@@ -14,22 +20,28 @@ export const SignIn = () => {
 		//Separate the 
 		console.log("Breaking away");
 		(async () => {
-			console.log("Requesting ");
 			const signInURL = `${BASE_URL}/sign-in`;
-			const response = await axios.post(signInURL, payload);
-			console.log(response);
+			try {
+				const response = await axios.post(signInURL, payload);
+				const user = response.data;
+				signIn(user);
+			} catch (error) {
+				setErrorMessage(error.message);
+			}
 		})();
 	}
-	return (<Main justifyContent="center" alignItems="center">
+	//TODO: - utilize history to redirect back to page that user came from
+	return (<NoAuth><Main justifyContent="center" alignItems="center">
 		<Card>
 			<CardHeader title="Sign In"/>
 			<CardContent component="form" onSubmit={handleSubmit}>
 				<Stack>
+					{errorMessage && <Alert variant="error">{errorMessage}</Alert>}
 					<TextField label="username" required type="text" variant="standard" name="username" autoComplete="username"/>
 					<TextField label="password" required type="password" variant="standard" name="password" autoComplete="current-password"/>
 					<Button type="submit" variant="contained" color="success">Sign In</Button>
 				</Stack>
 			</CardContent>
 		</Card>
-	</Main>);
+	</Main></NoAuth>);
 }

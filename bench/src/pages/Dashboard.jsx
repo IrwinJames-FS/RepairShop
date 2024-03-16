@@ -1,5 +1,9 @@
+import { Auth } from "../components/Auth";
+import { Topbar } from "../components/Topbar";
 
 
 export const Dashboard = () => {
-	return (<h1>Dashboard</h1>);
+	return (<Auth>
+		<Topbar/>
+	</Auth>);
 }

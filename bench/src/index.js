@@ -2,31 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
-import { Authenticated, Dashboard, SignIn } from './pages';
+import { Dashboard, SignIn, SignUp } from './pages';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Theme } from './components/Theme';
+import { Authentication } from './contexts/Authentication';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Authenticated/>,
-    children: [
-      {
-        index: true,
-        element: <Dashboard/>
-      }
-    ]
+    element: <Dashboard/>
   },
   {
     path: '/sign-in',
     element: <SignIn/>
+  },
+  {
+    path: '/sign-up',
+    element: <SignUp/>
   }
 ])
 root.render(
   <React.StrictMode>
     <Theme>
-      <RouterProvider router={router}/>
+      <Authentication>
+        <RouterProvider router={router}/>
+      </Authentication>
     </Theme>
   </React.StrictMode>
 );
