@@ -9,7 +9,7 @@ export const Topbar = () => {
 	return (<>
 	<AppBar enableColorOnDark>
 		<Toolbar sx={{justifyContent: 'space-between'}}>
-			<Typography variant="h4">Repair Shop</Typography>
+			<Typography component={Link} to="/" color="inherit" sx={{textDecoration:'none'}} variant="h4">Repair Shop</Typography>
 			<Toolbar disableGutters>
 				<MenuButton title={user.username} color="inherit" startIcon={<Person/>}>
 					<MenuItem component={Link} to="/profile">Edit Profile</MenuItem>

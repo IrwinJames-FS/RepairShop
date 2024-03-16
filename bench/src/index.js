@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
-import { Dashboard, SignIn, SignUp } from './pages';
+import { Dashboard, Profile, SignIn, SignUp } from './pages';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Theme } from './components/Theme';
 import { Authentication } from './contexts/Authentication';
@@ -20,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/sign-up',
     element: <SignUp/>
+  },
+  {
+    path:'/profile',
+    element:<Profile/>
   }
 ])
 root.render(
