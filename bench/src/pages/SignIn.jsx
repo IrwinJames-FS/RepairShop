@@ -1,6 +1,7 @@
 import { Button, Card, CardContent, CardHeader, Stack, TextField, Typography } from "@mui/material"
 import { Main } from "../components/Main"
 import axios from "axios";
+import { BASE_URL } from "../constants";
 export const SignIn = () => {
 	const handleSubmit = event => {
 		event.preventDefault();
@@ -10,7 +11,14 @@ export const SignIn = () => {
 			username: username.value,
 			password: password.value
 		}
-
+		//Separate the 
+		console.log("Breaking away");
+		(async () => {
+			console.log("Requesting ");
+			const signInURL = `${BASE_URL}/sign-in`;
+			const response = await axios.post(signInURL, payload);
+			console.log(response);
+		})();
 	}
 	return (<Main justifyContent="center" alignItems="center">
 		<Card>

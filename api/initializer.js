@@ -1,5 +1,6 @@
 /*
 A file to do some setup if this is the first time the server is being launched
+
 */
 
 const User = require("./models/User");

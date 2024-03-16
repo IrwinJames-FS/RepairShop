@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 const initialize = require("./initializer");
+const api = require("./routes/api");
 require("dotenv").config();
 
 
@@ -18,4 +20,8 @@ const app = express();
 
 //Configure the app
 app.use(cors());
+//server static files... not yet
+app.use(express.json()); 
+app.use(morgan("dev"));
+app.use("/api", api);
 app.listen(PORT, ()=>console.log(`Server is listening on port ${PORT}`));

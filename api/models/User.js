@@ -33,6 +33,9 @@ const UserSchema = new Schema({
 		unique: true,
 		validator: [v=>/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v), `A valid email must be provided`]
 	},
+	sessionSignature: { //an encoded signature to determine if access is granted
+		type: String
+	},
 	createdAt: {
 		type: Date,
 		required: true,
