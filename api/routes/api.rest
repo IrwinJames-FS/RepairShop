@@ -5,3 +5,12 @@ Content-Type: application/json
 	"username": "admin",
 	"password": "Secret5n@ke"
 }
+
+###
+
+GET http://localhost:8000/api/user
+Content-Type: application/json
+
+{
+	"sessionSignature": "01HS4DAFVPGK6W8WSMAGSQD5DZ"
+}

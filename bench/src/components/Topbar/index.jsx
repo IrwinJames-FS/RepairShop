@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, Person } from "@mui/icons-material"
+import { Person } from "@mui/icons-material"
 import { AppBar, MenuItem, Toolbar, Typography } from "@mui/material"
 import { useAuthentication } from "../../contexts/Authentication";
 import { MenuButton } from "../MenuButton";

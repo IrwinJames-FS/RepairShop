@@ -1,32 +1,21 @@
 const { Schema, model } = require("mongoose");
 
-const MaterialSchema = new Schema({
-	name: {
+const CommentsSchema = new Schema({
+	comment: {
 		type: String,
 		required: true,
-		unique: true,
 	},
-	price: {
-		type: Number,
+	author: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
 		required: true
 	},
-	unit: {
-		type: String,
-		required: true
+	createdAt: {
+		type: Date,
+		required: true,
+		default: Date.now()
 	}
-});
-
-const TimeSchema = new Schema({
-	description: {
-		type: String,
-		required: true
-	},
-	duration: {
-		type: Number,
-		required: true
-	}
-});
-
+})
 const TicketSchema = new Schema({
 	description: {
 		type: String,
@@ -36,13 +25,8 @@ const TicketSchema = new Schema({
 		type: String,
 		required: true
 	},
-	materials: {
-		type: [MaterialSchema],
-		required: true,
-		default: []
-	},
-	time: {
-		type: [TimeSchema],
+	comments: {
+		type: [CommentsSchema],
 		required: true,
 		default: []
 	},
@@ -52,7 +36,8 @@ const TicketSchema = new Schema({
 	},
 	submittedBy: {
 		type: Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true
 	},
 	createdAt: {
 		type: String,

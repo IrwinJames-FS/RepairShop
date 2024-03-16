@@ -22,6 +22,6 @@ const app = express();
 app.use(cors());
 //server static files... not yet
 app.use(express.json()); 
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use("/api", api);
 app.listen(PORT, ()=>console.log(`Server is listening on port ${PORT}`));

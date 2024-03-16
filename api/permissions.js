@@ -1,5 +1,6 @@
 /*
 In a production level application this would be handled with a role based system however to emulate a permission system I'll use this.
+Any user can see itself and Tickets it created
 */
 module.exports = {
 	SELF: 0x0, //everyone can modify their tickets and see their tickets basic information
