@@ -1,13 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { Authenticated, Dashboard, SignIn } from './pages';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Theme } from './components/Theme';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Authenticated/>,
+    children: [
+      {
+        index: true,
+        element: <Dashboard/>
+      }
+    ]
+  },
+  {
+    path: '/sign-in',
+    element: <SignIn/>
+  }
+])
 root.render(
   <React.StrictMode>
-    <App />
+    <Theme>
+      <RouterProvider router={router}/>
+    </Theme>
   </React.StrictMode>
 );
 
