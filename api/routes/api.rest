@@ -8,4 +8,51 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8000/api/user?sig=01HS4DAFVPGK6W8WSMAGSQD5DZ
+GET http://localhost:8000/api/user?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+
+
+###
+
+POST http://localhost:8000/api/ticket?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+Content-Type: application/json
+
+{
+	"description": "Fix Gold Necklace",
+	"details": "The clasp is broken also would like 3\" inches removed from the chain bringing the chain to a total of 24\" inches in length"
+}
+
+###
+
+GET http://localhost:8000/api/ticket?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+
+###
+
+GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+
+###
+
+GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+
+###
+
+GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment/65f748364a495e53c32b0841?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+
+###
+
+POST http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+Content-Type: application/json
+
+{
+	"comment": "This is cool",
+	"author": "65f6f427b6c394a1bdde02ac"
+}
+
+###
+
+PATCH http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment/65f748364a495e53c32b0841?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+Content-Type: application/json
+
+{
+	"comment": "This is cooler"
+}
+

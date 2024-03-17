@@ -15,6 +15,8 @@ const CommentsSchema = new Schema({
 		required: true,
 		default: Date.now()
 	}
+}, {
+	toJSON: {virtuals: true}
 })
 const TicketSchema = new Schema({
 	description: {
@@ -44,6 +46,8 @@ const TicketSchema = new Schema({
 		required: true,
 		default: Date.now()
 	}
+}, {
+	toJSON: {virtuals: true}
 });
 
 module.exports = model("Ticket", TicketSchema);

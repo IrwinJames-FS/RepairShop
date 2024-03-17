@@ -2,6 +2,8 @@ import { Grid } from "@mui/material";
 import { Auth } from "../components/Auth";
 import { Topbar } from "../components/Topbar";
 import { Users } from "../components/widgets/Users";
+import { Tickets } from "../components/widgets/Tickets";
+import qs from "qs";
 
 
 export const Dashboard = () => {
@@ -9,6 +11,7 @@ export const Dashboard = () => {
 		<Topbar/>
 		<Grid container>
 			<Users xs={12} md={6}/>
+			<Tickets xs={12} md={6}/>
 		</Grid>
 	</Auth>);
 }

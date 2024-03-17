@@ -14,7 +14,7 @@ export const UserForm = ({action, method, onValidate, onSubmit, user={}, require
 		<GField {...{name: 'phone', label: 'Phone', required, grid: {xs: 12, md: 6}, defaultValue: user.phone}}/>
 		<GField {...{name: 'password', label: 'Password', type:"password", required, grid: {xs: 12, md: 6}}}/>
 		<GField {...{name: 'repassword', label: 'Re-password', type:"password", required, grid: {xs: 12, md: 6}}}/>
-		{modUser.permission === 2 && <Grid item xs={12}><Select label="Permission" defaultValue={user.permission ?? 0} variant="standard" fullWidth>
+		{modUser.permission === 2 && <Grid item xs={12}><Select label="Permission" name="permission" defaultValue={user.permission ?? 0} variant="standard" fullWidth>
 			<MenuItem value={0}>Basic</MenuItem>
 			<MenuItem value={1}>Specialist</MenuItem>
 			<MenuItem value={2}>Admin</MenuItem>

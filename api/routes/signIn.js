@@ -18,8 +18,8 @@ router.post("/", async (req, res) => {
 		}
 		if(!user.sessionSignature) user.sessionSignature = ulid(); 
 		await user.save();
-		console.log("sigining in")
 		return res.cookie("signature", user.sessionSignature).status(201).json({
+			id: user.id,
 			name: user.name, 
 			username: user.username, 
 			phone: user.phone, 

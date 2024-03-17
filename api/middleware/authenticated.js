@@ -6,8 +6,9 @@ const authenticated = async (req, res, next) => {
 	const signature = req.body.sig ?? req.query.sig;
 	try {
 		if(!signature) throw new Error("A signature must be provided");
-		const user = await User.find({sessionSignature: signature});
+		const user = await User.findOne({sessionSignature: signature});
 		if(!user) throw new Error("Signature Not Found");
+		console.log(user, signature);
 		res.user = user;
 		return next();
 	} catch (error) {
