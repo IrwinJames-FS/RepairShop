@@ -4,7 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../constants";
 import { useState } from "react";
 import { buildStore } from "../utils/jsonStorage";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuthentication } from "../contexts/Authentication";
 import { NoAuth } from "../components/NoAuth";
 export const SignIn = () => {
@@ -40,6 +40,7 @@ export const SignIn = () => {
 					<TextField label="username" required type="text" variant="standard" name="username" autoComplete="username"/>
 					<TextField label="password" required type="password" variant="standard" name="password" autoComplete="current-password"/>
 					<Button type="submit" variant="contained" color="success">Sign In</Button>
+					<Button component={Link} to="/sign-up" color="info">Sign Up</Button>
 				</Stack>
 			</CardContent>
 		</Card>

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { buildStore } from "../utils/jsonStorage";
 
-const {getItem, setItem} = buildStore(sessionStorage);
+const {getItem, setItem, removeItem} = buildStore(sessionStorage);
 
 const AuthenticationContext = createContext({});
 
@@ -13,7 +13,11 @@ export const Authentication = ({children}) => {
 		setItem('rpx-usr', user);
 		setUser(user);
 	}
-	return (<AuthenticationContext.Provider value={{user, signIn}}>
+	const signOut = () => {
+		removeItem('rpx-usr');
+		setUser(null);
+	}
+	return (<AuthenticationContext.Provider value={{user, signIn, signOut}}>
 		{children}
 	</AuthenticationContext.Provider>);
 }

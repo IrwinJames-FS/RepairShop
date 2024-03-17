@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const authenticated = require("../middleware/authenticated");
+const { authenticated } = require("../middleware/authenticated");
 const User = require("../models/User");
 /**
  * Create user
@@ -52,7 +52,7 @@ router.get('/:id', authenticated, async (req, res)=>{
 /**
  * Update a user
  */
-router.patch('/:id', async (req, res)=>{
+router.patch('/:id', authenticated, async (req, res)=>{
 	const {permission: userPermission, id: userId} = res.user;
 	const { id } = req.params;
 	if(userId !==  id && userPermission < 2) return res.status(401).json({message:'Not Authorized'});

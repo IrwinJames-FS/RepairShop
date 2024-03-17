@@ -5,7 +5,7 @@ import { MenuButton } from "../MenuButton";
 import { Link } from "react-router-dom";
 
 export const Topbar = () => {
-	const {user} = useAuthentication();
+	const {user, signOut} = useAuthentication();
 	return (<>
 	<AppBar enableColorOnDark>
 		<Toolbar sx={{justifyContent: 'space-between'}}>
@@ -13,6 +13,7 @@ export const Topbar = () => {
 			<Toolbar disableGutters>
 				<MenuButton title={user.username} color="inherit" startIcon={<Person/>}>
 					<MenuItem component={Link} to="/profile">Edit Profile</MenuItem>
+					<MenuItem onClick={signOut}>Log out</MenuItem>
 				</MenuButton>
 			</Toolbar>
 		</Toolbar>

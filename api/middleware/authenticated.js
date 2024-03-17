@@ -1,6 +1,7 @@
 const User = require("../models/User");
 
 //The errors thrown in the try statement are for debug purposes and will not be passed to the client
+//Would use a cookie but with third party cookies being blocked by chrome and brave a token or signature of sorts seems to be the most controllable avenue.
 const authenticated = async (req, res, next) => {
 	const signature = req.body.sig ?? req.query.sig;
 	try {
@@ -15,4 +16,9 @@ const authenticated = async (req, res, next) => {
 	}
 }
 
-module.exports = authenticated;
+const notAuthenticated = async (req, res, next) => {
+	const signature = req.body.sig ?? req.query.sig;
+	if(signature) return res.status(403).json({message: 'Not Authorized'});
+	return next();
+}
+module.exports = { authenticated, notAuthenticated };
