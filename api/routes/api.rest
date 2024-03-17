@@ -8,9 +8,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8000/api/user
-Content-Type: application/json
-
-{
-	"sessionSignature": "01HS4DAFVPGK6W8WSMAGSQD5DZ"
-}
+GET http://localhost:8000/api/user?sig=01HS4DAFVPGK6W8WSMAGSQD5DZ

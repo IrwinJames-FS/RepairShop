@@ -41,6 +41,9 @@ const UserSchema = new Schema({
 		required: true,
 		default: Date.now()
 	}
+}, {
+	toJSON:{virtuals: true}
 });
+
 
 module.exports = model("User", UserSchema);

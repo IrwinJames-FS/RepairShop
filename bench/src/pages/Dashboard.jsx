@@ -7,8 +7,8 @@ import { Users } from "../components/widgets/Users";
 export const Dashboard = () => {
 	return (<Auth>
 		<Topbar/>
-		<Grid container>
-			<Users xs={12}/>
+		<Grid container spacing={1} sx={{m:1}}>
+			<Users xs={12} md={6}/>
 		</Grid>
 	</Auth>);
 }
