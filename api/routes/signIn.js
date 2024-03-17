@@ -8,9 +8,9 @@ const { DAY } = require("../CONSTANTS");
 router.post("/", async (req, res) => {
 	const { username, password } = req.body;
 	try{
-		const user = await User.findOne({username})
-		const isMatch = user ? compare(password, user.password):false;
-		if(!isMatch) return res.status(400).json({message: "Invalid username or passworld"});
+		const user = await User.findOne({username});
+		const isMatch = user ? await compare(password, user.password):false;
+		if(!isMatch) return res.status(400).json({message: "Invalid username or password"});
 		//create a signature
 		if (user.sessionSignature){
 			const time = decodeTime(user.sessionSignature);

@@ -1,10 +1,10 @@
-import { Card, CardHeader, Dialog, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Typography } from "@mui/material";
+import { Card, CardHeader, Dialog, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material";
 import { useAuthentication } from "../../contexts/Authentication"
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../../constants";
 import { DataGrid } from "@mui/x-data-grid";
-import { Add, Edit } from "@mui/icons-material";
+import { Add, Delete, Edit } from "@mui/icons-material";
 import { UserForm } from "../UserForm";
 import { WidgetContainer } from "./WidgetContainer";
 import { getAllUsers } from "../../utils/api";
@@ -43,7 +43,12 @@ export const Users = (props) => {
 		{
 			field: '',
 			renderCell: params => {
-				return (<IconButton onClick={cellSelector(params.row)}><Edit/></IconButton>)
+				return (<>
+				<Tooltip title="Edit User">
+					<IconButton onClick={cellSelector(params.row)}><Edit/></IconButton>
+				</Tooltip>
+				{user?.permission > 1 && <Tooltip title="Delete User"><IconButton><Delete/></IconButton></Tooltip>}
+				</>)
 			}
 		}
 	]

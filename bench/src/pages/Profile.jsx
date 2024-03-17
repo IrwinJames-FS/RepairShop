@@ -8,26 +8,15 @@ import { useAuthentication } from "../contexts/Authentication";
 import { parseFormElements } from "../utils/formParser";
 import { useState } from "react";
 import { UserForm } from "../components/UserForm";
+import { BASE_URL } from "../constants";
+import { updateUser } from "../utils/validators";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
 	const {user} = useAuthentication();
-	const [errorMessage, setErrorMessage] = useState(null);
-	const onSubmit = e => {
-		e.preventDefault();
-		const formValues = parseFormElements(e.currentTarget.elements, user);
-
-		//for now just do some validation if passwords change.
-		if((formValues.password || formValues.repassword) && formValues.password !== formValues.repassword ) return setErrorMessage(`Password and Re-Password dont match`);
-
-		(async () => {
-			try {
-				
-			} catch (error) {
-				return setErrorMessage(error.message);
-			}
-		})();
-		
-		console.log(formValues);
+	const navigate = useNavigate();
+	const onSubmit = () => {
+		navigate("/");
 	}
 	return (<Auth>
 		<Topbar/>
@@ -35,7 +24,7 @@ export const Profile = () => {
 		<Card sx={{width: {xs: 'calc(100dvw - 2rem)', md: '70dvw'}}}>
 			<CardHeader title="Edit Profile"/>
 			<CardContent>
-				<UserForm/>
+				<UserForm {...{user, method: "patch", action:`${BASE_URL}/user/${user?.id}?sig=${user?.sessionSignature}`, onValidate: updateUser, onSubmit}}/>
 			</CardContent>
 		</Card>
 	</Main>

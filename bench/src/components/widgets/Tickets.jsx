@@ -1,5 +1,5 @@
-import { Add, Comment, CommentBank, Edit } from "@mui/icons-material"
-import { Card, CardHeader, Dialog, DialogContent, DialogTitle, Grid, Icon, IconButton, Stack, Typography } from "@mui/material"
+import { Add, Comment, Delete, Edit } from "@mui/icons-material"
+import { Dialog, DialogContent, DialogTitle, IconButton, Tooltip } from "@mui/material"
 import { WidgetContainer } from "./WidgetContainer"
 import { useEffect, useMemo, useState } from "react"
 import { TicketForm } from "../TicketForm"
@@ -8,7 +8,6 @@ import { DataGrid } from "@mui/x-data-grid"
 import { getAllTickets } from "../../utils/api"
 import { BASE_URL } from "../../constants"
 import { newTicket } from "../../utils/validators"
-import { CommentsView } from "../CommentsView"
 import { CommentsDialog } from "./CommentsDialog"
 
 export const Tickets = (props) => {
@@ -27,12 +26,15 @@ export const Tickets = (props) => {
 		}},
 		{
 			field: '',
+			width: user?.permission > 1 ? 140:100,
 			renderCell: (params) => {
 				const select = ()=>selectTicket(params.row);
 				const selectComment = ()=>selectCommentTicket(params.row);
 				return (<>
-				<IconButton onClick={select} ><Edit/></IconButton>
-				<IconButton onClick={selectComment}><Comment/></IconButton></>)
+				<Tooltip title="Edit Ticket"><IconButton onClick={select} ><Edit/></IconButton></Tooltip>
+				<Tooltip title="View Comments"><IconButton onClick={selectComment}><Comment/></IconButton></Tooltip>
+				{user?.permission > 1 && <Tooltip title="Delete Ticket"><IconButton><Delete/></IconButton></Tooltip>}
+				</>)
 			}
 		}
 	]
@@ -66,6 +68,6 @@ export const Tickets = (props) => {
 			{selectedTicket && <TicketForm method={"id" in selectedTicket ? "patch":"post"} action={`${BASE_URL}/ticket${"id" in selectedTicket ? '/'+selectedTicket.id:''}?sig=${user.sessionSignature}`} onSubmit={onTicketSubmit} onValidate={newTicket} ticket={selectedTicket}/>}
 		</DialogContent>
 	</Dialog>
-	<CommentsDialog open={commentDialogOpen} onClose={()=>selectCommentTicket(null)}/>
+	<CommentsDialog open={commentDialogOpen}  onClose={()=>selectCommentTicket(null)} ticketId={selectedCommentTicket?.id}/>
 	</>);
 }

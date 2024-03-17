@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { hash } = require("bcrypt");
 const { authenticated } = require("../middleware/authenticated");
 const User = require("../models/User");
 /**
@@ -8,11 +9,13 @@ const User = require("../models/User");
 router.post('/', authenticated, async (req, res) => {
 	const {permission:userPermission} = res.user;
 	if(userPermission < 2) return res.status(401).json({message: 'Not Authorized'});
-	const {name, username, email, phone, password, permission} = req.body;
-	const user = new User({name, username, email, phone, password, permission});
+	const {name, username, email, phone, password:pass, permission} = req.body;
+	
+	
 	try{
-		const usr = await user.save();
-		return res.status(201).json(usr);
+		const password = await hash(pass, 10);
+		const user = User.create({name, username, email, phone, password, permission});
+		return res.status(201).json(user);
 	} catch (error) {
 		return res.status(400).json({message: error.message});
 	}
@@ -29,7 +32,7 @@ router.get('/', authenticated, async (req, res) => {
 	if(fields && (!Array.isArray(fields) || fields.length === 0)) return res.status(400).json({message:"The fields query item must be an array"});
 	if(fields && fields.includes("password")) return res.status(403).json({message: "Absolutely Not"});
 	try{
-		const users = await User.find(filterPermission ? {permission: filterPermission}:{}, fields ? fields.join(' '):'id name phone emal');
+		const users = await User.find(filterPermission ? {permission: filterPermission}:{}, fields ? fields.join(' '):'id name phone email');
 		return res.status(200).json(users);
 	} catch (error) {
 		console.log(error);
@@ -61,7 +64,9 @@ router.patch('/:id', authenticated, async (req, res)=>{
 	const { id } = req.params;
 	if(userId !==  id && userPermission < 2) return res.status(401).json({message:'Not Authorized'});
 	try{
-		const user = await User.findByIdAndUpdate(id, req.body);
+		const {password, ...body} = req.body;
+		if(password) body.password = await hash(password, 10);
+		const user = await User.findByIdAndUpdate(id, body);
 		if(!user) return res.status(404).json({message: 'User not found'});
 		return res.status(201).json(user);
 	} catch (error) {

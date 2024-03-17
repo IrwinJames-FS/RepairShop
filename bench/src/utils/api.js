@@ -15,3 +15,8 @@ export const getAllUsers = (sig, query={}) => axios.get(`${BASE_URL}/user?${qs.s
 export const getAllTickets = (sig, query={})=> axios.get(`${BASE_URL}/ticket?${qs.stringify({...query, sig})}`)
 .then(resp=>resp.data);
 
+export const getTicketComments = (sig, tid, query) => axios.get(`${BASE_URL}/ticket/${tid}/comment?${qs.stringify({...query, sig})}`)
+.then(resp=>resp.data);
+
+export const saveNewComment = (sig, tid, body) => axios.post(`${BASE_URL}/ticket/${tid}/comment?${qs.stringify({sig})}`, body)
+.then(resp=>resp.data);

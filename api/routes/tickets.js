@@ -88,7 +88,8 @@ router.post('/:id/comment', authenticated, lookup(Ticket, "ticket", "comments id
 	try{
 		res.ticket.comments.push(req.body);
 		await res.ticket.save();
-		await res.ticket.populate('comments.author', 'username')
+		await res.ticket.populate('comments.author', 'username');
+		return res.status(201).json(res.ticket.comments);
 	} catch (error) {
 		return res.status(400).json({message: error.message });
 	}
@@ -110,7 +111,8 @@ router.get('/:id/comment/:cid', authenticated, lookup(Ticket, "ticket"), sublook
 });
 
 router.patch('/:id/comment/:cid', authenticated, lookup(Ticket, "ticket"), sublookup("ticket", "comments", "cid", "comment"), async (req, res) => {
-	console.log(res.comment, req.body);
+	const { user } = res;
+	if(user.id !== res.comment.author) return res.status(401).json({message: 'Not Authorized'});
 	res.comment.comment = req.body.comment;
 	try{
 		await res.comment.save();

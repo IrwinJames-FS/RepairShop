@@ -8,19 +8,16 @@ export const Form = ({onSubmit, action, method="post", onValidate, filter, child
 	const handleSubmit = e => {
 		e.preventDefault();
 		const elements = parseFormElements(e.currentTarget.elements, filter ?? false);
-		console.log(elements, e.currentTarget.elements);
 		(async () => {
 			try{
 				const payload = onValidate ? onValidate(elements):elements;
-				console.log(payload);
 				if(Object.keys(payload).length === 0) throw new Error("No changes were detected");
 				const request = axios[method];
 				if(!request) throw new Error("An Invalid method has been provided");
 				const response = await request(action, payload);
 				onSubmit(response);
 			} catch (error) {
-				console.error(error);
-				setErrorMessage(error.message);
+				setErrorMessage(error.response ? error.response.data.message:error.message);
 			}
 		})();
 	}
