@@ -45,7 +45,7 @@ export const CommentsDialog = ({ticketId, open, onClose}) => {
 	<DialogContent>
 		<List>
 			{comments.map(({comment, id, createdAt, author:{username}})=><ListItem key={id}>
-				<ListItemText primary={<pre>{comment}</pre>} secondary={`${username} @ ${dys(createdAt)}`}/>
+				<ListItemText primary={<pre style={{whiteSpace:"pre-wrap"}}>{comment}</pre>} secondary={`${username} @ ${dys(createdAt)}`}/>
 			</ListItem>)}
 			<ListItem>
 				<TextField {...{label:"Comment", value, onChange, variant:"standard"}} multiline fullWidth/>

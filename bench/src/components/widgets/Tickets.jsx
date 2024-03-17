@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 import { TicketForm } from "../TicketForm"
 import { useAuthentication } from "../../contexts/Authentication"
 import { DataGrid } from "@mui/x-data-grid"
-import { getAllTickets } from "../../utils/api"
+import { deleteTicket, getAllTickets } from "../../utils/api"
 import { BASE_URL } from "../../constants"
 import { newTicket } from "../../utils/validators"
 import { CommentsDialog } from "./CommentsDialog"
@@ -30,10 +30,12 @@ export const Tickets = (props) => {
 			renderCell: (params) => {
 				const select = ()=>selectTicket(params.row);
 				const selectComment = ()=>selectCommentTicket(params.row);
+				const deleteTick = ()=>deleteTicket(user.sessionSignature, params.id)
+				.finally(()=>selectTicket(s=>s===null ? undefined:null));
 				return (<>
 				<Tooltip title="Edit Ticket"><IconButton onClick={select} ><Edit/></IconButton></Tooltip>
 				<Tooltip title="View Comments"><IconButton onClick={selectComment}><Comment/></IconButton></Tooltip>
-				{user?.permission > 1 && <Tooltip title="Delete Ticket"><IconButton><Delete/></IconButton></Tooltip>}
+				{user?.permission > 1 && <Tooltip title="Delete Ticket"><IconButton onClick={deleteTick}><Delete/></IconButton></Tooltip>}
 				</>)
 			}
 		}

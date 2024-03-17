@@ -32,7 +32,7 @@ router.get('/', authenticated, async (req, res) => {
 	if(fields && (!Array.isArray(fields) || fields.length === 0)) return res.status(400).json({message:"The fields query item must be an array"});
 	if(fields && fields.includes("password")) return res.status(403).json({message: "Absolutely Not"});
 	try{
-		const users = await User.find(filterPermission ? {permission: filterPermission}:{}, fields ? fields.join(' '):'id name phone email');
+		const users = await User.find(filterPermission ? {permission: filterPermission}:{}, fields ? fields.join(' '):'id name phone email username');
 		return res.status(200).json(users);
 	} catch (error) {
 		console.log(error);

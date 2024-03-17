@@ -20,3 +20,7 @@ export const getTicketComments = (sig, tid, query) => axios.get(`${BASE_URL}/tic
 
 export const saveNewComment = (sig, tid, body) => axios.post(`${BASE_URL}/ticket/${tid}/comment?${qs.stringify({sig})}`, body)
 .then(resp=>resp.data);
+
+export const deleteTicket = (sig, tid) => axios.delete(`${BASE_URL}/ticket/${tid}?${qs.stringify({sig})}`);
+
+export const deleteUser = (sig, uid) => axios.delete(`${BASE_URL}/user/${uid}?${qs.stringify({sig})}`);
