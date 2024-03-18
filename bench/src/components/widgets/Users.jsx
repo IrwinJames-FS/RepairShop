@@ -1,7 +1,6 @@
-import { Card, CardHeader, Dialog, DialogContent, DialogTitle, Grid, IconButton, Stack, Toolbar, Tooltip, Typography } from "@mui/material";
-import { useAuthentication } from "../../contexts/Authentication"
+import { Dialog, DialogContent, DialogTitle, IconButton, Tooltip } from "@mui/material";
+import { useAuthentication } from "../../contexts/Authentication";
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import { BASE_URL } from "../../constants";
 import { DataGrid } from "@mui/x-data-grid";
 import { Add, Delete, Edit } from "@mui/icons-material";
