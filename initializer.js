@@ -7,6 +7,7 @@ const User = require("./models/User");
 const { hash } = require("bcrypt");
 
 const initialize = async () => {
+	console.log("Connected to db")
 	try {
 		const count = await User.countDocuments({});
 		if(count > 0) return;
