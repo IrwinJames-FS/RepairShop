@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 const initialize = require("./initializer");
 const api = require("./routes/api");
 const cookieParser = require("cookie-parser");
@@ -24,5 +25,12 @@ app.use(cors());
 app.use(express.json()); 
 app.use(cookieParser())
 //app.use(morgan("dev"));
-app.use("/api", api);
+app.use("/api/v1", api);
+
+app.use(express.static(path.join(__dirname, '../bench/build')));
+
+app.use("/*", (req, res) => {
+	res.sendFile(path.join(__dirname, '../bench/build', 'index.html'));
+});
+
 app.listen(PORT, ()=>console.log(`Server is listening on port ${PORT}`));

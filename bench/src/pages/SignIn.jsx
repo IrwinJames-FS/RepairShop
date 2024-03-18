@@ -19,6 +19,7 @@ export const SignIn = () => {
 		//Separate the context
 
 		const signInURL = `${BASE_URL}/sign-in`;
+		console.log(signInURL)
 		return axios.post(signInURL, payload)
 		.then(resp=>resp.data)
 		.then(user=>signIn(user))

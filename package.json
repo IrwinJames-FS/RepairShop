@@ -4,6 +4,7 @@
 	"engines": {
 		"node": ">=16.10.0"
 	},
+	"main": "index.js",
 	"scripts": {
 		"install:bench": "npm install --prefix bench",
 		"install:api": "npm install --prefix api",
