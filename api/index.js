@@ -5,7 +5,7 @@ const path = require("path");
 const initialize = require("./initializer");
 const api = require("./routes/api");
 const cookieParser = require("cookie-parser");
-require("dotenv").config();
+require("dotenv").config({path: '../.env'});
 
 
 
