@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const {compare} = require("bcrypt");
 const {ulid, decodeTime } = require("ulid");
-const { DAY } = require("../CONSTANTS");
+const { DAY } = require("../constants");
 
 
 router.post("/", async (req, res) => {

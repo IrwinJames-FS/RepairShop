@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const morgan = require("morgan");
 const initialize = require("./initializer");
 const api = require("./routes/api");
 const cookieParser = require("cookie-parser");
