@@ -10,7 +10,7 @@
 		"install:api": "npm install --prefix api",
 		"build:bench": "npm run build --prefix bench",
 		"build:api": "npm run build --prefix api",
-		"heroku-postbuild": "concurrently \"npm install:*\"; concurrently \"npm build:*\";",
+		"heroku-postbuild": "concurrently \"npm run install:*\"; concurrently \"npm run build:*\";",
 		"start": "npm start --prefix api",
 		"bench": "cd bench; npm run start",
 		"api": "cd api; npm run start",
