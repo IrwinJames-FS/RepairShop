@@ -40,9 +40,9 @@ router.get('/', authenticated, async (req, res) => {
 router.get('/:id', authenticated, async (req, res)=>{
 	const {permission: userPermission, userId} = res.user;
 	const { id } = req.params;
-	const { populate = 'assignedTo submittedBy comments.author' } = req.query;
+	const { populate = 'assignedTo submittedBy' } = req.query;
 	try{
-		const ticket = await Ticket.findById(id).populate(populate);
+		const ticket = await Ticket.findById(id).populate(populate).populate({path: 'comments.author', select: 'username'}).exec();
 		if(userPermission < 2 && (ticket.assignedTo.id !== userId && ticket.submittedBy.id !== userId )) res.status(401).json({message:'Not Authorized'});
 		return res.status(200).json(ticket);
 	} catch (error) {
