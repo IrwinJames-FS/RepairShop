@@ -6,11 +6,25 @@ const User = require("../models/User");
 router.get('/username/:username', async (req, res) => {
 	const { username } = req.params;
 	try {
-		const user = await User.findOne({username}, 'username');
+		const user = await User.findOne({username}, 'id');
 		return res.status(200).json({exists: !!user});
 	} catch (error) {
 		return res.status(500).json({message: error.message});
 	}
+});
+
+router.get('/email/:email', async (req, res) => {
+	const {email} = req.params;
+	return User.findOne({email}, 'id')
+	.then(u=>res.status(200).json({exists: !!u}))
+	.catch(e=>res.status(500).json({message: error.message}));
+});
+
+router.get('/phone/:phone', async (req, res) => {
+	const {phone} = req.params;
+	return User.findOne({phone}, 'id')
+	.then(u=>res.status(200).json({exists:!!u}))
+	.catch(e=>res.status(500).json({message: error.message}));
 })
 /**
  * Create user
