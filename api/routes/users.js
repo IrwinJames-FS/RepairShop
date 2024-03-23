@@ -14,7 +14,7 @@ router.post('/', authenticated, async (req, res) => {
 	
 	try{
 		const password = await hash(pass, 10);
-		const user = User.create({name, username, email, phone, password, permission});
+		const user = await User.create({name, username, email, phone, password, permission});
 		return res.status(201).json(user);
 	} catch (error) {
 		return res.status(400).json({message: error.message});
