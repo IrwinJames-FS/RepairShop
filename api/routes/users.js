@@ -2,6 +2,16 @@ const router = require("express").Router();
 const { hash } = require("bcrypt");
 const { authenticated } = require("../middleware/authenticated");
 const User = require("../models/User");
+
+router.get('/username/:username', async (req, res) => {
+	const { username } = req.params;
+	try {
+		const user = await User.findOne({username}, 'username');
+		return res.status(200).json({exists: !!user});
+	} catch (error) {
+		return res.status(500).json({message: error.message});
+	}
+})
 /**
  * Create user
  * Unlike sign up this allows for customization of all user settings
