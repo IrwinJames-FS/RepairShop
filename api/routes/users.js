@@ -35,12 +35,19 @@ router.post('/', authenticated, async (req, res) => {
 	if(userPermission < 2) return res.status(401).json({message: 'Not Authorized'});
 	const {name, username, email, phone, password:pass, permission} = req.body;
 	
-	
+	console.log("Attempting to save user");
 	try{
 		const password = await hash(pass, 10);
 		const user = await User.create({name, username, email, phone, password, permission});
 		return res.status(201).json(user);
 	} catch (error) {
+		if(error.errors) return res.status(400).json({errors:Object.keys(error.errors).reduce((p,c,i)=>({...p, [c]:error.errors[c].message}), {}), message: "Please fix the following errors"});
+		if(!error.code) return res.status(500).json({message: error.message});
+		switch (error.code) {
+			case 11000:
+				const key = Object.keys(error.keyPattern)[0]
+				return res.status(400).json({message: `Duplicate ${key}`});
+		}
 		return res.status(400).json({message: error.message});
 	}
 });
@@ -94,6 +101,13 @@ router.patch('/:id', authenticated, async (req, res)=>{
 		if(!user) return res.status(404).json({message: 'User not found'});
 		return res.status(201).json(user);
 	} catch (error) {
+		if(error.errors) return res.status(400).json({errors:Object.keys(error.errors).reduce((p,c,i)=>({...p, [c]:error.errors[c].message}), {}), message: "Please fix the following errors"});
+		if(!error.code) return res.status(500).json({message: error.message});
+		switch (error.code) {
+			case 11000:
+				const key = Object.keys(error.keyPattern)[0]
+				return res.status(400).json({errors: {[key]:'Already Taken'}});
+		}
 		return res.status(400).json({message: error.message});
 	}
 });

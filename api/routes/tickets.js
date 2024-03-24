@@ -28,6 +28,7 @@ router.get('/', authenticated, async (req, res) => {
 	const {permission, id} = res.user;
 	try{
 		const tickets = await Ticket.find(permission === 2 ? {}:{$or:[{submittedBy: id}, {assignedTo: id}]});
+		console.log(tickets, id);
 		return res.status(200).json(tickets);
 	} catch (error) {
 		return res.status(500).json({message: error.message});
@@ -38,14 +39,16 @@ router.get('/', authenticated, async (req, res) => {
  * Get a ticket
  */
 router.get('/:id', authenticated, async (req, res)=>{
-	const {permission: userPermission, userId} = res.user;
+	const {permission: userPermission, id: userId, ...props} = res.user;
+	console.log(props);
 	const { id } = req.params;
 	const { populate = 'assignedTo submittedBy' } = req.query;
 	try{
 		const ticket = await Ticket.findById(id).populate(populate).populate({path: 'comments.author', select: 'username'}).exec();
-		if(userPermission < 2 && (ticket.assignedTo.id !== userId && ticket.submittedBy.id !== userId )) res.status(401).json({message:'Not Authorized'});
+		if(userPermission < 2 && (ticket.assignedTo?.id !== userId && ticket.submittedBy.id !== userId )) return res.status(401).json({message:'Not Authorized'});
 		return res.status(200).json(ticket);
 	} catch (error) {
+		console.log(props, userId, error);
 		return res.status(500).json({message: error.message});
 	}
 });

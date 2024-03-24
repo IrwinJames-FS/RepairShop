@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const CommentsSchema = new Schema({
 	comment: {
 		type: String,
-		required: true,
+		required: [true, "A comment must be provided"],
 	},
 	author: {
 		type: Schema.Types.ObjectId,
@@ -21,11 +21,11 @@ const CommentsSchema = new Schema({
 const TicketSchema = new Schema({
 	description: {
 		type: String,
-		required: true,
+		required: [true, "We need a description"],
 	},
 	details: {
 		type: String,
-		required: true
+		required: [true, "Please provide as much detail as possible"]
 	},
 	comments: {
 		type: [CommentsSchema],

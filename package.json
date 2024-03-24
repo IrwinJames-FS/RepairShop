@@ -13,6 +13,7 @@
 		"start": "npm start --prefix api",
 		"bench": "cd bench; npm run start",
 		"api": "cd api; npm run start",
+		"dev:api": "cd api; npm run dev",
 		"dev:react": "concurrently --raw \"npm run api\" \"npm run bench\""
 	},
 	"dependencies": {
