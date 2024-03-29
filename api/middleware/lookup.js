@@ -1,3 +1,5 @@
+const { generalErrors } = require("../controllers/errors");
+
 const lookup = (store, key, properties) => {
 	return async (req, res, next) => {
 		const {id} = req.params;
@@ -7,7 +9,7 @@ const lookup = (store, key, properties) => {
 			res[key] = item;
 			return next();
 		} catch (error) {
-			return res.status(500).json({message: error.message});
+			return generalErrors(error, next);
 		}
 	}
 }
@@ -19,13 +21,12 @@ const sublookup = (doc, property, cid, key, pop) => {
 			try{
 				await res[doc].populate(...pop)
 			} catch (error) {
-				console.log(error);
-				return res.status(500).json({message: "Oops something went wrong"});
+				return generalErrors(error, next)
 			}
 		}
 		const id = req.params[cid]
 		const item = res[doc][property].id(id);
-		if(!item) return res.status(404).json({message: `${key.charAt(0).toUppercase()+key.slice(1)} not found`});
+		if(!item) return generalErrors({message: `${key.charAt(0).toUppercase()+key.slice(1)} not found`}, next);
 		res[key] = item;
 		return next();
 	}

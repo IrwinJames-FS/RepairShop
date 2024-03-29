@@ -5,6 +5,7 @@ const path = require("path");
 const initialize = require("./initializer");
 const api = require("./routes/api");
 const cookieParser = require("cookie-parser");
+const { ApiError } = require("./errors");
 require("dotenv").config({path: '../.env'});
 
 
@@ -33,4 +34,9 @@ app.use("/*", (req, res) => {
 	res.sendFile(path.join(__dirname, '../bench/build', 'index.html'));
 });
 
+//handle errors
+app.use((err, req, res, next) => {
+	if(err instanceof ApiError) return res.status(err.status).json(err.json);
+	return next(err.message);
+});
 app.listen(PORT, ()=>console.log(`Server is listening on port ${PORT}`));

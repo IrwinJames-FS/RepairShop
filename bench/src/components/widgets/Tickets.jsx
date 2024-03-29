@@ -5,19 +5,19 @@ import { useEffect, useMemo, useState } from "react"
 import { TicketForm } from "../TicketForm"
 import { useAuthentication } from "../../contexts/Authentication"
 import { DataGrid } from "@mui/x-data-grid"
-import { deleteTicket, getAllTickets } from "../../utils/api"
-import { BASE_URL } from "../../constants"
-import { newTicket } from "../../utils/validators"
 import { CommentsDialog } from "./CommentsDialog"
+import { useApi } from "../../contexts/Api"
+import { useDialog } from "../../contexts/Dialogs"
 
 export const Tickets = (props) => {
+	const { getTickets, deleteTicket } = useApi();
 	const [tickets, setTickets] = useState([]);
 	const [selectedTicket, selectTicket] = useState(null);
 	const [selectedCommentTicket, selectCommentTicket] = useState(null);
-
 	const dialogOpen = useMemo(()=>!!selectedTicket, [selectedTicket]);
 	const commentDialogOpen = useMemo(()=>!!selectedCommentTicket, [selectedCommentTicket]);
-	const { user } = useAuthentication();
+	const { user:{user_id, permission} } = useAuthentication();
+	const { confirm } = useDialog();
 	const columns = [
 		{field: 'description', flex:1},
 		{field: 'createdAt', valueFormatter: ({value}) => {
@@ -26,21 +26,27 @@ export const Tickets = (props) => {
 		}},
 		{
 			field: '',
-			width: user?.permission > 1 ? 140:100,
+			width: permission > 1 ? 140:100,
 			renderCell: (params) => {
 				const select = ()=>selectTicket(params.row);
 				const selectComment = ()=>selectCommentTicket(params.row);
-				const deleteTick = ()=>deleteTicket(user.sessionSignature, params.id)
-				.finally(()=>selectTicket(s=>s===null ? undefined:null));
+				const deleteTick = ()=>{
+					return confirm("Delete Ticket?", "This cannot be undone", "I'm Sure", "Nevermind")
+					.then(confirm=>{
+						if(confirm) deleteTicket(params.id)
+					})
+					.finally(()=>selectTicket(s=>s===null ? undefined:null));
+				}
+				
 				return (<>
 				<Tooltip title="Edit Ticket"><IconButton onClick={select} ><Edit/></IconButton></Tooltip>
 				<Tooltip title="View Comments"><IconButton onClick={selectComment}><Comment/></IconButton></Tooltip>
-				{user?.permission > 1 && <Tooltip title="Delete Ticket"><IconButton onClick={deleteTick}><Delete/></IconButton></Tooltip>}
+				{permission > 1 && <Tooltip title="Delete Ticket"><IconButton onClick={deleteTick}><Delete/></IconButton></Tooltip>}
 				</>)
 			}
 		}
 	]
-	const createNewTicket = ()=>selectTicket({submittedBy:user.id});
+	const createNewTicket = ()=>selectTicket({submittedBy:user_id});
 	const onTicketSubmit = () => {
 		selectTicket(null);
 	}
@@ -48,14 +54,14 @@ export const Tickets = (props) => {
 		if(selectedTicket) return; //If there is a ticket being presented no point in refereshing data but if this changes then there could be a new ticket or edited information 
 		(async () => {
 			try {
-				const tickets = await getAllTickets(user.sessionSignature); 
+				const tickets = await getTickets(); 
 				setTickets(tickets);
 			} catch (error) {
 				console.log(error);
 				//I should do something here
 			}
 		})();
-	}, [setTickets, user, selectedTicket]);
+	}, [setTickets, selectedTicket, getTickets]);
 	return (<>
 	<WidgetContainer {...{
 		title: "Tickets",
@@ -67,7 +73,7 @@ export const Tickets = (props) => {
 	<Dialog open={dialogOpen} onClose={()=>selectTicket(null)} fullWidth>
 		<DialogTitle sx={{bgcolor:"info.light", color:"white"}}>Edit Ticket</DialogTitle>
 		<DialogContent>
-			{selectedTicket && <TicketForm method={"id" in selectedTicket ? "patch":"post"} action={`${BASE_URL}/ticket${"id" in selectedTicket ? '/'+selectedTicket.id:''}?sig=${user.sessionSignature}`} onSubmit={onTicketSubmit} onValidate={newTicket} ticket={selectedTicket}/>}
+			{selectedTicket && <TicketForm  onSubmit={onTicketSubmit} ticket={selectedTicket}/>}
 		</DialogContent>
 	</Dialog>
 	<CommentsDialog open={commentDialogOpen}  onClose={()=>selectCommentTicket(null)} ticketId={selectedCommentTicket?.id}/>

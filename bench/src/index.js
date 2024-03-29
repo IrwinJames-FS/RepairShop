@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-
 import { Dashboard, Profile, SignIn, SignUp } from './pages';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Theme } from './components/Theme';
 import { Authentication } from './contexts/Authentication';
+import { Api } from './contexts/Api';
+import { DialogContainer } from './contexts/Dialogs';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
@@ -29,9 +30,13 @@ const router = createBrowserRouter([
 root.render(
   <React.StrictMode>
     <Theme>
-      <Authentication>
-        <RouterProvider router={router}/>
-      </Authentication>
+      <DialogContainer>
+        <Authentication>
+          <Api>
+            <RouterProvider router={router}/>
+          </Api>
+        </Authentication>
+      </DialogContainer>
     </Theme>
   </React.StrictMode>
 );

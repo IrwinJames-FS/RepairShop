@@ -1,41 +1,33 @@
-import { Alert, Button, Card, CardContent, CardHeader, Stack, TextField } from "@mui/material";
+import { Button, Card, CardContent, CardHeader, Grid, Stack, Typography } from "@mui/material";
 import { Main } from "../components/Main";
-import axios from "axios";
-import { BASE_URL } from "../constants";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useAuthentication } from "../contexts/Authentication";
 import { NoAuth } from "../components/NoAuth";
-export const SignIn = () => {
-	const [errorMessage, setErrorMessage] = useState(null);
-	const { signIn } = useAuthentication();
-	const handleSubmit = event => {
-		event.preventDefault();
-		const {username, password} = event.target.elements;
-		const payload = {
-			username: username.value,
-			password: password.value
-		}
-		//Separate the context
+import { useApi } from "../contexts/Api";
+import { Form } from "../components/Form";
+import { Cancel, Done } from "@mui/icons-material";
+import { validateSignIn } from "../utils/validators";
+import { Link } from "react-router-dom";
+import { GField } from "../components/GField";
 
-		const signInURL = `${BASE_URL}/sign-in`;
-		console.log(signInURL)
-		return axios.post(signInURL, payload)
-		.then(resp=>resp.data)
-		.then(user=>signIn(user))
-		.catch(error=>setErrorMessage(error.response.data.message));
-	}
+export const SignIn = () => {
+	const { login } = useAuthentication();
+	const { signIn } = useApi();
+	
 	//TODO: - utilize history to redirect back to page that user came from
 	return (<NoAuth><Main justifyContent="center" alignItems="center">
 		<Card>
-			<CardHeader title="Sign In"/>
-			<CardContent component="form" onSubmit={handleSubmit}>
+			<CardHeader title="Sign In" sx={{bgcolor: "info.light"}}/>
+			<CardContent>
 				<Stack>
-					{errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-					<TextField label="username" required type="text" variant="standard" name="username" autoComplete="username"/>
-					<TextField label="password" required type="password" variant="standard" name="password" autoComplete="current-password"/>
-					<Button type="submit" variant="contained" color="success">Sign In</Button>
-					<Button component={Link} to="/sign-up" color="info">Sign Up</Button>
+					<Form action={signIn} onValidate={validateSignIn} onSubmit={login} spacing={1}>
+						<GField {...{name: 'username', autoComplete:"username", grid:{xs:12}}} required/>
+						<GField {...{name: 'password', type:"password", autoComplete:"current-password", grid:{xs:12}}} required/>
+						<Grid item xs={12} container component={Stack} direction={{xs:"column", md:"row"}} justifyContent={{xs: "flex-start", md: "flex-end"}} gap={1}>
+							<Button variant="contained" color="error" sx={{color:"text.primary"}} startIcon={<Cancel/>} type="reset">Reset</Button>
+							<Button variant="contained" color="success" sx={{color:"text.primary"}} startIcon={<Done/>} type="submit">Login</Button>
+						</Grid>
+					</Form>
+					<Typography paragraph>Not a member? <Button component={Link} to="/sign-up">Sign Up!</Button></Typography>
 				</Stack>
 			</CardContent>
 		</Card>

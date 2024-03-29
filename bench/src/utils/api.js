@@ -8,7 +8,7 @@ import qs from "qs";
  * @param {*} query 
  * @returns 
  */
-export const getAllUsers = (sig, query={}) => axios.get(`${BASE_URL}/user?${qs.stringify({...query, sig})}`)
+export const getAllUsers = (sig, query) => axios.get(`${BASE_URL}/user${query && '?'+qs.stringify({...query})}`)
 .then(resp=>resp.data);
 
 

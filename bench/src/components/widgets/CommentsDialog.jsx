@@ -1,23 +1,22 @@
 import { Dialog, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemText, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getTicketComments, saveNewComment } from "../../utils/api";
 import { useAuthentication } from "../../contexts/Authentication";
 import { Send } from "@mui/icons-material";
 import { useInputValue } from "../../hooks/useInputValue";
+import { useApi } from "../../contexts/Api";
 
 export const CommentsDialog = ({ticketId, open, onClose}) => {
-	const { user } = useAuthentication();
+	const { user: {user_id} } = useAuthentication();
+	const { saveComment, getTicketComments } = useApi();
 	const [comments, setComments] = useState([]);
 	const [value, onChange, setValue] = useInputValue("");
 	const save = () => {
 		(async () => {
-			console.log("Saving");
 			try{
-				const comments = await saveNewComment(user.sessionSignature, ticketId, {
-					author: user.id,
+				const comments = await saveComment(ticketId, {
+					author: user_id,
 					comment: value
 				});
-				console.log(comments);
 				setValue("");
 				setComments(comments);
 			} catch (error) {
@@ -31,14 +30,14 @@ export const CommentsDialog = ({ticketId, open, onClose}) => {
 		if(!ticketId) return;
 		(async ()=>{
 			try{
-				const comments = await getTicketComments(user.sessionSignature, ticketId);
+				const comments = await getTicketComments(ticketId);
 				setComments(comments);
 			} catch (error) {
 				console.log("do something different", error);
 
 			}
 		})();
-	}, [setComments, ticketId, user]);
+	}, [setComments, ticketId, getTicketComments]);
 	
 	return (<Dialog {...{open, onClose}} fullWidth>
 	<DialogTitle sx={{bgcolor:"info.light", color:"white"}}>Comments</DialogTitle>

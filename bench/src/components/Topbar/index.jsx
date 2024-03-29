@@ -2,10 +2,15 @@ import { Person } from "@mui/icons-material"
 import { AppBar, MenuItem, Toolbar, Typography } from "@mui/material"
 import { useAuthentication } from "../../contexts/Authentication";
 import { MenuButton } from "../MenuButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Topbar = () => {
-	const {user, signOut} = useAuthentication();
+	const {user, logout} = useAuthentication();
+	const navigate = useNavigate();
+	const onLogout = () => {
+		logout();
+		navigate("/sign-in");
+	}
 	return (<>
 	<AppBar enableColorOnDark>
 		<Toolbar sx={{justifyContent: 'space-between'}}>
@@ -13,7 +18,7 @@ export const Topbar = () => {
 			<Toolbar disableGutters>
 				<MenuButton title={user.username} color="inherit" startIcon={<Person/>}>
 					<MenuItem component={Link} to="/profile">Edit Profile</MenuItem>
-					<MenuItem onClick={signOut}>Log out</MenuItem>
+					<MenuItem onClick={onLogout}>Log out</MenuItem>
 				</MenuButton>
 			</Toolbar>
 		</Toolbar>

@@ -1,14 +1,14 @@
-POST http://localhost:8000/api/sign-in
+POST http://localhost:8000/api/v1/sign-in
 Content-Type: application/json
 
 {
-	"username": "admin",
+	"username": "administrator",
 	"password": "Secret5n@ke"
 }
 
 ###
 
-POST http://localhost:8000/api/sign-in
+POST http://localhost:8000/api/v1/sign-in
 Content-Type: application/json
 
 {
@@ -18,12 +18,13 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8000/api/user?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
-
+GET http://localhost:8000/api/v1/user
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
 
 ###
 
-POST http://localhost:8000/api/ticket?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+POST http://localhost:8000/api/v1/ticket
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
 Content-Type: application/json
 
 {
@@ -33,23 +34,25 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:8000/api/ticket?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+GET http://localhost:8000/api/v1/ticket
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
+###
+
+GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
+###
+
+GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
+###
+
+GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment/65f748364a495e53c32b0841
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
 
 ###
 
-GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
-
-###
-
-GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
-
-###
-
-GET http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment/65f748364a495e53c32b0841?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
-
-###
-
-POST http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+POST http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
 Content-Type: application/json
 
 {
@@ -59,7 +62,8 @@ Content-Type: application/json
 
 ###
 
-PATCH http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment/65f748364a495e53c32b0841?sig=01HS6ASPHXQ6W40PSMB2QZHJXE
+PATCH http://localhost:8000/api/ticket/65f73165c7614ea88d74454d/comment/65f748364a495e53c32b0841
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NWZmYTkyNWFhMWY0ODVkZDFjYTI1MGYiLCJpYXQiOjE3MTE2Njg5MDczNzd9.E7Vot22ufxxEXdL2kRa92X1D-8PI5DxbRCEZVAgKINs
 Content-Type: application/json
 
 {

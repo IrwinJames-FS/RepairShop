@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { buildStore } from "../utils/jsonStorage";
 
 const {getItem, setItem, removeItem} = buildStore(sessionStorage);
@@ -9,15 +9,22 @@ export const useAuthentication = () => useContext(AuthenticationContext);
 
 export const Authentication = ({children}) => {
 	const [user, setUser] = useState(getItem("rpx-usr"));
-	const signIn = (user) => {
+	const login = useCallback((user) => {
 		setItem('rpx-usr', user);
 		setUser(user);
-	}
-	const signOut = () => {
+	}, [setUser]);
+
+	const logout = useCallback(() => {
 		removeItem('rpx-usr');
 		setUser(null);
-	}
-	return (<AuthenticationContext.Provider value={{user, signIn, signOut}}>
+	}, [setUser]);
+
+	const update = useCallback((key, value) => setUser(u=>{
+		const nu = {...u, [key]:value};
+		setItem('rpx-usr', nu);
+		return nu;
+	}),  [setUser])
+	return (<AuthenticationContext.Provider value={{user, login, logout, update}}>
 		{children}
 	</AuthenticationContext.Provider>);
 }

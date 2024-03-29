@@ -1,9 +1,8 @@
 import { Alert, Grid } from "@mui/material"
 import { useState } from "react";
 import { parseFormElements } from "../utils/formParser";
-import axios from "axios";
 
-export const Form = ({onSubmit, action, method="post", onValidate, filter, children, ...props}) => {
+export const Form = ({onSubmit, action, onValidate, filter, children, ...props}) => {
 	const [errorMessage, setErrorMessage] = useState(null);
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -12,12 +11,12 @@ export const Form = ({onSubmit, action, method="post", onValidate, filter, child
 			try{
 				const payload = onValidate ? onValidate(elements):elements;
 				if(Object.keys(payload).length === 0) throw new Error("No changes were detected");
-				const request = axios[method];
-				if(!request) throw new Error("An Invalid method has been provided");
-				const response = await request(action, payload);
+				if(!action) throw new Error("An Invalid method has been provided");
+				console.log(payload);
+				const response = await action(payload);
 				onSubmit(response);
 			} catch (error) {
-				setErrorMessage(error.response ? error.response.data.message:error.message);
+				setErrorMessage(error.message);
 			}
 		})();
 	}

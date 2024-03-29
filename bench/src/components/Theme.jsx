@@ -9,7 +9,6 @@ export const Theme = ({children}) => {
 			mode: isDark ? `dark`:`light`
 		}
 	}), [isDark]);
-
 	return (<ThemeProvider theme={theme}>
 		<CssBaseline/>
 		{children}

@@ -18,6 +18,7 @@ const CommentsSchema = new Schema({
 }, {
 	toJSON: {virtuals: true}
 })
+
 const TicketSchema = new Schema({
 	description: {
 		type: String,

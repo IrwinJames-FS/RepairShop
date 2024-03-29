@@ -1,10 +1,15 @@
 const router = require("express").Router();
-const signUp = require("./signUp");
-const signIn = require("./signIn");
+const passport = require('passport');
+const passportService = require('../services/passport');
+const { signup, signin } = require('../controllers/authentication');
 const users = require("./users");
 const ticket = require("./tickets");
-router.use("/sign-in", signIn);
-router.use("/sign-up", signUp);
-router.use("/user", users);
-router.use("/ticket", ticket)
+const handleLogin = passport.authenticate('local', {session:false});
+
+const protectedRoute = passport.authenticate('jwt', {session: false});
+console.log(signup);
+router.use("/sign-in", handleLogin, signin);
+router.use("/sign-up", signup);
+router.use("/user", protectedRoute, users);
+router.use("/ticket", protectedRoute, ticket)
 module.exports = router;
