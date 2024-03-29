@@ -19,6 +19,7 @@ export const CommentsDialog = ({ticketId, open, onClose}) => {
 				});
 				setValue("");
 				setComments(comments);
+				
 			} catch (error) {
 				console.log(error);
 				console.log("do something to handle this error");
